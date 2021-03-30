@@ -31,6 +31,7 @@ console.log ("nahodne cislo " + Math.random());
 
 // tato funkce se spustí při načtení stránky
 // tj. ve chvíli, kdy je načtené komplet HTML, CSS a všechny obrázky a zvuky
+
 function priNacteniStranky() {
 
 	// do globálních proměnných si uložíme odkaz na objekty panáčka a mince,
@@ -111,28 +112,28 @@ function priStiskuKlavesy(udalost) {
 	let klavesa = udalost.key;
 
 	// šipka vlevo
-	if(klavesa === "ArrowLeft"){
+	if(klavesa === "ArrowLeft" && panacekX > 0){
 		panacekX= panacekX - 5;
 		panacek.style.left = panacekX + 'px';
 		console.log("doleva " +panacekX);
 	}
 
 	// šipka vpravo
-	if(klavesa === "ArrowRight"){
+	if(klavesa === "ArrowRight" && panacekX < (window.innerWidth - panacekSirka)){
 		panacekX= panacekX + 5;
 		panacek.style.left = panacekX + 'px';
 		console.log("doprava " +panacekX);
 	}
 
 	// šipka nahoru
-	else if (klavesa == "ArrowUp"){
+	else if (klavesa == "ArrowUp" && panacekY > 0){
 		panacekY= panacekY - 5;
 		panacek.style.top = panacekY + 'px';
 		console.log("nahoru "+panacekY);
 	}
 
 	// šipka dolů
-	else if (klavesa == "ArrowDown"){
+	else if (klavesa == "ArrowDown" && panacekY < (window.innerHeight - panacekVyska)){
 		panacekY= panacekY + 5;
 		panacek.style.top = panacekY + 'px';
 		console.log("dolu "+panacekY);
@@ -142,14 +143,23 @@ function priStiskuKlavesy(udalost) {
 
 
 	// otestujeme kolizi panáčka s mincí
-	
+	otestujKolizi();
 }
 
-// fuknce pro otestování kolize panáčka s mincí
+// fuknce pro otestování kolize panáčka s mincí - Koliduje okraj panáčka s mincí?
 function otestujKolizi() {
 	// musíme to napsat :)
-	if(panacekY==minceY && panacekX==minceX){
+	let pravyOkrajPanackaSeNedotyka = panacekX + panacekSirka < minceX;
+	let levyOkrajPanackaSeNedotyka = minceX + minceSirka < panacekX;
+	let dolniOkrajPanackaSeNedotyka = panacekY + panacekVyska < minceY;
+	let horniOkrajPanackaSeNedotyka = minceY + minceVyska < panacekY;
+
+	// jednotlivé podmíny (prměnné výše si můžu přepsat do podmínky níže. Otazník znamená negaco )
+
+	if (!( panacekX + panacekSirka < minceX || minceX + minceSirka < panacekX || panacekY + panacekVyska < minceY || minceY + minceVyska < panacekY)) {
+		// panacek a mince se prekryvaji
 		console.log("mince v kapse!");
 		novaMince();
 	} 
 }
+
