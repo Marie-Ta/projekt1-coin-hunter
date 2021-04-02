@@ -113,28 +113,28 @@ function priStiskuKlavesy(udalost) {
 
 	// šipka vlevo
 	if(klavesa === "ArrowLeft" && panacekX > 0){
-		panacekX= panacekX - 5;
+		panacekX= panacekX - 10;
 		panacek.style.left = panacekX + 'px';
 		console.log("doleva " +panacekX);
 	}
 
 	// šipka vpravo
 	if(klavesa === "ArrowRight" && panacekX < (window.innerWidth - panacekSirka)){
-		panacekX= panacekX + 5;
+		panacekX= panacekX + 10;
 		panacek.style.left = panacekX + 'px';
 		console.log("doprava " +panacekX);
 	}
 
 	// šipka nahoru
 	else if (klavesa == "ArrowUp" && panacekY > 0){
-		panacekY= panacekY - 5;
+		panacekY= panacekY - 10;
 		panacek.style.top = panacekY + 'px';
 		console.log("nahoru "+panacekY);
 	}
 
 	// šipka dolů
 	else if (klavesa == "ArrowDown" && panacekY < (window.innerHeight - panacekVyska)){
-		panacekY= panacekY + 5;
+		panacekY= panacekY + 10;
 		panacek.style.top = panacekY + 'px';
 		console.log("dolu "+panacekY);
 	}
@@ -146,20 +146,49 @@ function priStiskuKlavesy(udalost) {
 	otestujKolizi();
 }
 
-// fuknce pro otestování kolize panáčka s mincí - Koliduje okraj panáčka s mincí?
+// funkce pro otestování kolize panáčka s mincí - Koliduje okraj panáčka s mincí?
 function otestujKolizi() {
-	// musíme to napsat :)
 	let pravyOkrajPanackaSeNedotyka = panacekX + panacekSirka < minceX;
 	let levyOkrajPanackaSeNedotyka = minceX + minceSirka < panacekX;
 	let dolniOkrajPanackaSeNedotyka = panacekY + panacekVyska < minceY;
 	let horniOkrajPanackaSeNedotyka = minceY + minceVyska < panacekY;
 
-	// jednotlivé podmíny (prměnné výše si můžu přepsat do podmínky níže. Otazník znamená negaco )
+	// jednotlivé podmínky (proměnné výše si můžu přepsat do podmínky níže. Otazník na začátku znamená negaci )
 
 	if (!( panacekX + panacekSirka < minceX || minceX + minceSirka < panacekX || panacekY + panacekVyska < minceY || minceY + minceVyska < panacekY)) {
 		// panacek a mince se prekryvaji
 		console.log("mince v kapse!");
 		novaMince();
+		prehrajSebraniMince();
+		prictiBod();
 	} 
+}
+
+// Přehrávání hudby během hry
+
+let hudba = document.querySelector('#hudba');
+
+function prvniStiskKlavesy(){
+	hudba.play();
+}
+
+let sebraniMince = document.querySelector('#zvukmince');
+
+function prehrajSebraniMince(){
+	sebraniMince.play();
+}
+
+//Počítání skóre
+
+let aktualniSkore = 0;
+let zobrazeniSkore = document.querySelector('#score');
+
+// Musím měnit text v HTML
+console.log("aktualni skore " + aktualniSkore);
+
+function prictiBod(){
+	aktualniSkore=aktualniSkore+1;
+	console.log("aktualni skore " + aktualniSkore);
+	zobrazeniSkore.innerHTML=aktualniSkore;
 }
 
